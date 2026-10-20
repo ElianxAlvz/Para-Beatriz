@@ -38,8 +38,6 @@ body { -webkit-tap-highlight-color: transparent; }
 }
 .page > .inner { margin: auto; width: 100%; max-width: 860px; text-align: center; }
 .page.active { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
-.page.leave-left { transform: translateX(-40px); }
-.page.from-left { transform: translateX(-40px); }
 
 h1, h2 { font-weight: 400; }
 .script { font-family: var(--script); color: var(--neon); text-shadow: 0 0 18px rgba(255,77,109,.55); line-height: 1.1; }
@@ -62,7 +60,6 @@ h2.script { font-size: clamp(2.4rem, 8vw, 3.8rem); margin-bottom: 28px; }
 .btn.big { background: var(--neon); color: #1a0309; font-weight: 600; font-size: 1.15rem; padding: 16px 38px; box-shadow: 0 0 30px rgba(255,77,109,.5); animation: pulse 2.2s ease-in-out infinite; }
 .btn.big:hover { background: #ff6b86; }
 @keyframes pulse { 50% { box-shadow: 0 0 50px rgba(255,77,109,.85); } }
-.btn:focus-visible, .music:focus-visible, .dot:focus-visible, .reasons li:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
 
 /* Música */
 .music {
@@ -97,16 +94,13 @@ h2.script { font-size: clamp(2.4rem, 8vw, 3.8rem); margin-bottom: 28px; }
 
 /* Sobre */
 .envelope { display: grid; justify-items: center; gap: 26px; transition: opacity .5s ease, transform .5s ease; }
-.envelope.gone { opacity: 0; transform: scale(.9) translateY(-12px); pointer-events: none; }
 .env-img { width: min(68vw, 300px); height: auto; border-radius: 20px; background: #fff; border: 2px solid var(--neon); box-shadow: 0 0 34px rgba(255,77,109,.45); animation: float 4s ease-in-out infinite; }
-.env-fallback { font-size: clamp(5rem, 24vw, 8rem); line-height: 1; filter: drop-shadow(0 0 22px rgba(255,77,109,.7)); animation: float 4s ease-in-out infinite; }
-@keyframes unfold { from { opacity: 0; transform: translateY(34px) scale(.92); } to { opacity: 1; transform: none; } }
 
 /* Carta */
 .letter { display: none; background: var(--panel); border: 1px solid rgba(255,77,109,.3); border-radius: 18px; padding: clamp(22px, 5vw, 44px); text-align: left; box-shadow: 0 0 40px rgba(255,77,109,.1); }
 .letter.open { display: block; animation: unfold .9s ease both; }
 .letter p { font-weight: 300; font-size: clamp(.98rem, 2.6vw, 1.12rem); line-height: 1.85; margin-bottom: 1.2em; }
-.letter p:last-child { margin-bottom: 0; }
+@keyframes unfold { from { opacity: 0; transform: translateY(34px) scale(.92); } to { opacity: 1; transform: none; } }
 
 /* Razones */
 .reasons { list-style: none; display: grid; gap: 12px; text-align: left; max-width: 640px; margin: 0 auto; }
@@ -125,18 +119,14 @@ h2.script { font-size: clamp(2.4rem, 8vw, 3.8rem); margin-bottom: 28px; }
 .page.active .timeline li { opacity: 1; transform: none; }
 .timeline li::before { content: '❤'; position: absolute; left: -34px; top: 0; font-size: .9rem; color: var(--neon); text-shadow: 0 0 10px var(--neon); background: var(--bg); width: 20px; text-align: center; }
 
-/* Galería */
-.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr)); gap: 14px; }
-.photo { position: relative; padding: 0; border: 1px solid rgba(255,77,109,.35); border-radius: 14px; overflow: hidden; cursor: pointer; background: var(--panel); aspect-ratio: 3 / 4; transition: transform .25s, box-shadow .25s; }
-.photo:hover { transform: scale(1.03); box-shadow: 0 0 26px rgba(255,77,109,.5); }
-.photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.photo.missing::after { content: 'Foto pendiente'; position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); font-size: .85rem; }
-.photo.missing img { display: none; }
+/* Sección del Video */
+.video-section { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 30px; margin-top: 20px; }
 
-.lightbox { position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,.94); display: none; place-items: center; padding: 18px; }
-.lightbox.open { display: grid; }
-.lightbox img { max-width: 100%; max-height: 86vh; border-radius: 12px; box-shadow: 0 0 40px rgba(255,77,109,.4); }
-.lightbox .btn { position: absolute; top: calc(14px + env(safe-area-inset-top, 0px)); right: max(14px, env(safe-area-inset-right, 0px)); background: rgba(13,13,13,.85); }
+/* Modal del Video en Pantalla Completa */
+.video-modal { position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,.95); display: none; place-items: center; padding: 20px; }
+.video-modal.open { display: grid; }
+.video-modal video { max-width: 100%; max-height: 80vh; border-radius: 16px; border: 2px solid var(--neon); box-shadow: 0 0 40px rgba(255,77,109,.5); }
+.video-modal .btn { position: absolute; top: calc(14px + env(safe-area-inset-top, 0px)); right: max(14px, env(safe-area-inset-right, 0px)); background: rgba(13,13,13,.85); }
 
 /* Dedicatoria Final */
 .dedication-card {
@@ -164,8 +154,7 @@ h2.script { font-size: clamp(2.4rem, 8vw, 3.8rem); margin-bottom: 28px; }
   text-shadow: 0 0 15px rgba(255,77,109,.5);
 }
 
-@media (max-width: 480px) { .counter { gap: 8px; } .unit { padding: 16px 4px; } .nav .btn, .nav .spacer { min-width: 96px; padding-inline: 14px; } }
-@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition-duration: .01s !important; } }
+@media (max-width: 480px) { .counter { gap: 8px; } .unit { padding: 16px 4px; } .nav .btn { min-width: 96px; padding-inline: 14px; } }
 </style>
 </head>
 <body>
@@ -194,7 +183,7 @@ h2.script { font-size: clamp(2.4rem, 8vw, 3.8rem); margin-bottom: 28px; }
   <section class="page" aria-label="Contador">
     <div class="inner">
       <h2 class="script">Nuestro Tiempo Juntos</h2>
-      <div class="counter" aria-live="off">
+      <div class="counter">
         <div class="unit"><b id="cD">0</b><span>Días</span></div>
         <div class="unit"><b id="cH">0</b><span>Horas</span></div>
         <div class="unit"><b id="cM">0</b><span>Minutos</span></div>
@@ -209,13 +198,13 @@ h2.script { font-size: clamp(2.4rem, 8vw, 3.8rem); margin-bottom: 28px; }
     <div class="inner">
       <h2 class="script">Para ti, mi amor...</h2>
       <div class="envelope" id="envelope">
-        <img class="env-img" id="envImg" src="carta_sobre.png" alt="Muñequito entregando un sobre con un corazón">
+        <img class="env-img" id="envImg" src="carta_sobre.png" alt="Sobre con corazón">
         <button class="btn big" id="openBtn" type="button">Abrir 💌</button>
       </div>
-      <div class="letter" id="letter" aria-live="polite">
-        <p>¡Quién iba a imaginar que tendríamos un amor tan lindo, tan puro, tan genuino, tan nosotros! Cuando antes nunca tuvimos un acercamiento, no éramos amigos, no nos conocíamos como tal... Pasé un poco más de 17 años de mi vida fuera de la tuya, y hoy en día no quiero estar lejos de ti ni por un segundo. En todo este tiempo que llevamos juntos (el cual, por cierto, no es nada para todo lo que quiero contigo) debo decir que he aprendido mucho, tanto de ti como de mí mismo.</p>
-        <p>Hemos tenido muchas altas y muchas bajas; no todo ha sido color de rosa, pero nuestro amor siempre ha sido real. Al momento de escribirte esto no dejo de pensar en cómo ha sido todo desde que te conocí: tan solo era un adolescente en ese entonces y ahora, poco a poco, me estoy convirtiendo en un hombre. Un hombre que quiere crecer a tu lado y tratarte siempre como la reina que eres; siempre amarte, anhelarte y desear todo contigo, porque eso es lo que mi corazón siente cuando pienso en ti.</p>
-        <p>Como ya dije, no todo ha sido fácil. Hemos tenido momentos no muy buenos y conversaciones difíciles que, cuando me detengo a pensar, siento que han forjado un amor muy fuerte por ti. Apenas estamos comenzando a vivir, aún somos jóvenes con un futuro que no tenemos del todo definido, pero quiero que sepas que a mis 21 años ya tengo más que claro que todo lo que quiero, lo quiero contigo, mi amor.</p>
+      <div class="letter" id="letter">
+        <p>¡Quién iba a imaginar que tendríamos un amor tan lindo, tan puro, tan genuino, tan nosotros! Pasé un poco más de 17 años de mi vida fuera de la tuya, y hoy en día no quiero estar lejos de ti ni por un segundo.</p>
+        <p>Hemos tenido muchas altas y muchas bajas; no todo ha sido color de rosa, pero nuestro amor siempre ha sido real. Un hombre que quiere crecer a tu lado y tratarte siempre como la reina que eres.</p>
+        <p>Apenas estamos comenzando a vivir, aún somos jóvenes con un futuro que no tenemos del todo definido, pero quiero que sepas que a mis 21 años ya tengo más que claro que todo lo que quiero, lo quiero contigo, mi amor.</p>
       </div>
     </div>
   </section>
@@ -228,10 +217,10 @@ h2.script { font-size: clamp(2.4rem, 8vw, 3.8rem); margin-bottom: 28px; }
         <li tabindex="0">🥰 Tu sonrisa y tu forma de ser.</li>
         <li tabindex="0">💖 Lo bonito que me haces sentir.</li>
         <li tabindex="0">😍 Tus curvas que me vuelven loco.</li>
-        <li tabindex="0">💝 La forma tan bonita de demostrarme tu amor y lo genuina que eres.</li>
-        <li tabindex="0">💞 Tu forma de ser conmigo y la manera en la que ves nuestro amor.</li>
+        <li tabindex="0">💝 La forma tan bonita de demostrarme tu amor.</li>
+        <li tabindex="0">💞 Tu forma de ser conmigo y cómo ves nuestro amor.</li>
         <li tabindex="0">🌹 La manera en la que me cuidas y me respetas.</li>
-        <li tabindex="0">💘 Lo diferente que eres y por cómo piensas sobre nosotros.</li>
+        <li tabindex="0">💘 Lo diferente que eres y por cómo piensas.</li>
         <li tabindex="0" class="last">❤️ Porque quiero todo contigo, por siempre.</li>
       </ul>
     </div>
@@ -242,8 +231,8 @@ h2.script { font-size: clamp(2.4rem, 8vw, 3.8rem); margin-bottom: 28px; }
     <div class="inner">
       <h2 class="script">Esos lindos momentos de nuestros inicios ღ</h2>
       <ul class="timeline">
-        <li>Nuestras primeras semanas, cuando nos estábamos conociendo y sentíamos toda la vergüenza del mundo al juntarnos.</li>
-        <li>Los días tan bonitos que pasamos en nuestra primera Navidad, nuestra Nochebuena y Año Nuevo.</li>
+        <li>Nuestras primeras semanas, cuando nos estábamos conociendo.</li>
+        <li>Los días tan bonitos que pasamos en nuestra primera Navidad y Año Nuevo.</li>
         <li>Esa noche mágica (9 de enero de 2023).</li>
         <li>Lo bien que me hiciste sentir en mi cumpleaños (14 de febrero).</li>
         <li>El rato tan agradable que pasamos en tu cumpleaños, ese 30 de junio. 🔥</li>
@@ -252,11 +241,13 @@ h2.script { font-size: clamp(2.4rem, 8vw, 3.8rem); margin-bottom: 28px; }
     </div>
   </section>
 
-  <!-- Página 6: Galería de Fotos -->
-  <section class="page" aria-label="Galería">
+  <!-- Página 6: Sección del Video -->
+  <section class="page" aria-label="Video de momentos">
     <div class="inner">
-      <h2 class="script">Nuestros Momentos Juntos</h2>
-      <div class="gallery" id="gallery"></div>
+      <h2 class="script">Por más momentos así ❤️</h2>
+      <div class="video-section">
+        <button class="btn big" id="playVideoBtn" type="button">Ver nuestro video 🎬❤️</button>
+      </div>
     </div>
   </section>
 
@@ -275,15 +266,19 @@ h2.script { font-size: clamp(2.4rem, 8vw, 3.8rem); margin-bottom: 28px; }
 
 </main>
 
-<nav class="nav" id="nav" aria-label="Navegación" hidden>
+<nav class="nav" id="nav" hidden>
   <button class="btn" id="prevBtn" type="button">⬅️ Anterior</button>
   <div class="dots" id="dots"></div>
   <button class="btn" id="nextBtn" type="button">Siguiente ➡️</button>
 </nav>
 
-<div class="lightbox" id="lightbox" role="dialog" aria-label="Foto ampliada">
-  <button class="btn" id="closeLb" type="button">Cerrar ✕</button>
-  <img id="lbImg" alt="">
+<!-- Modal del Video -->
+<div class="video-modal" id="videoModal">
+  <button class="btn" id="closeVideo" type="button">Cerrar ✕</button>
+  <video id="myVideo" controls preload="auto">
+    <source src="mivideooo.mp4" type="video/mp4">
+    Tu navegador no soporta reproducción de video.
+  </video>
 </div>
 
 <script>
@@ -295,20 +290,17 @@ h2.script { font-size: clamp(2.4rem, 8vw, 3.8rem); margin-bottom: 28px; }
   var prevBtn = document.getElementById('prevBtn');
   var nextBtn = document.getElementById('nextBtn');
   var dotsEl = document.getElementById('dots');
-  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* Corazones de fondo */
-  if (!reduce) {
-    var bg = document.getElementById('bg');
-    for (var i = 0; i < 16; i++) {
-      var h = document.createElement('span');
-      h.textContent = '❤';
-      h.style.left = Math.random() * 100 + '%';
-      h.style.fontSize = (10 + Math.random() * 20) + 'px';
-      h.style.animationDuration = (9 + Math.random() * 10) + 's';
-      h.style.animationDelay = (-Math.random() * 14) + 's';
-      bg.appendChild(h);
-    }
+  var bg = document.getElementById('bg');
+  for (var i = 0; i < 16; i++) {
+    var h = document.createElement('span');
+    h.textContent = '❤';
+    h.style.left = Math.random() * 100 + '%';
+    h.style.fontSize = (10 + Math.random() * 20) + 'px';
+    h.style.animationDuration = (9 + Math.random() * 10) + 's';
+    h.style.animationDelay = (-Math.random() * 14) + 's';
+    bg.appendChild(h);
   }
 
   /* Música */
@@ -317,42 +309,17 @@ h2.script { font-size: clamp(2.4rem, 8vw, 3.8rem); margin-bottom: 28px; }
     musicBtn.classList.toggle('playing', on);
     document.getElementById('musicIco').textContent = on ? '🔊' : '🔇';
     document.getElementById('musicTxt').textContent = on ? 'Pausar' : 'Música';
-    musicBtn.setAttribute('aria-label', on ? 'Pausar música' : 'Reproducir música');
   }
-  var wantPlay = false, triedBlob = false;
-  function playMusic() { wantPlay = true; var p = song.play(); if (p && p.catch) p.catch(function () {}); }
-  function musicFailed() { document.getElementById('musicTxt').textContent = 'Sin música'; musicBtn.setAttribute('aria-label', 'La música no se pudo cargar'); }
-  song.addEventListener('error', function () {
-    if (triedBlob) { musicFailed(); return; }
-    triedBlob = true;
-    fetch('musica.mp3').then(function (r) { if (!r.ok) throw new Error('http'); return r.blob(); }).then(function (b) {
-      song.src = URL.createObjectURL(b);
-      if (wantPlay) playMusic();
-    }).catch(musicFailed);
-  });
+  function playMusic() { var p = song.play(); if (p && p.catch) p.catch(function () {}); }
   musicBtn.addEventListener('click', function () { if (song.paused) playMusic(); else song.pause(); });
   song.addEventListener('play', paintMusic);
-  song.addEventListener('waiting', function () { if (!song.paused) document.getElementById('musicTxt').textContent = 'Cargando…'; });
-  song.addEventListener('playing', paintMusic);
   song.addEventListener('pause', paintMusic);
-
-  var unlockEvents = ['pointerdown', 'touchend', 'keydown', 'click'];
-  function unlock(e) {
-    if (e && e.target && musicBtn.contains(e.target)) return;
-    playMusic();
-  }
-  function disarm() { unlockEvents.forEach(function (ev) { document.removeEventListener(ev, unlock, true); }); }
-  song.addEventListener('play', disarm);
-  var auto = song.play();
-  if (auto && auto.catch) auto.catch(function () {
-    unlockEvents.forEach(function (ev) { document.addEventListener(ev, unlock, true); });
-  });
 
   /* Navegación */
   for (var d = 0; d < pages.length; d++) {
     (function (n) {
       var b = document.createElement('button');
-      b.type = 'button'; b.className = 'dot'; b.setAttribute('aria-label', 'Ir a la página ' + (n + 1));
+      b.type = 'button'; b.className = 'dot';
       b.addEventListener('click', function () { show(n); });
       dotsEl.appendChild(b);
     })(d);
@@ -363,12 +330,7 @@ h2.script { font-size: clamp(2.4rem, 8vw, 3.8rem); margin-bottom: 28px; }
     if (!started && n > 0) return;
     var from = pages[cur], to = pages[n];
     from.classList.remove('active');
-    from.classList.toggle('leave-left', n > cur);
-    to.classList.remove('leave-left');
-    to.classList.toggle('from-left', n < cur);
-    void to.offsetWidth;
     to.classList.add('active');
-    to.classList.remove('from-left');
     to.scrollTop = 0;
     cur = n;
     paint();
@@ -381,21 +343,8 @@ h2.script { font-size: clamp(2.4rem, 8vw, 3.8rem); margin-bottom: 28px; }
   prevBtn.addEventListener('click', function () { show(cur - 1); });
   nextBtn.addEventListener('click', function () { show(cur + 1); });
   document.getElementById('startBtn').addEventListener('click', function () { started = true; playMusic(); show(1); });
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'ArrowRight') show(cur + 1);
-    if (e.key === 'ArrowLeft') show(cur - 1);
-    if (e.key === 'Escape') closeLb();
-  });
-  var sx = null;
-  document.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; }, { passive: true });
-  document.addEventListener('touchend', function (e) {
-    if (sx === null) return;
-    var dx = e.changedTouches[0].clientX - sx; sx = null;
-    if (Math.abs(dx) > 70 && !document.getElementById('lightbox').classList.contains('open')) show(cur + (dx < 0 ? 1 : -1));
-  }, { passive: true });
-  paint();
 
-  /* Contador desde el 27 de julio de 2022 */
+  /* Contador */
   var start = new Date(2022, 6, 27, 0, 0, 0).getTime();
   function tick() {
     var s = Math.max(0, Math.floor((Date.now() - start) / 1000));
@@ -406,52 +355,35 @@ h2.script { font-size: clamp(2.4rem, 8vw, 3.8rem); margin-bottom: 28px; }
   }
   tick(); setInterval(tick, 1000);
 
-  /* Carta con sobre */
-  var envImg = document.getElementById('envImg');
-  envImg.addEventListener('error', function () {
-    var f = document.createElement('div');
-    f.className = 'env-fallback'; f.setAttribute('aria-hidden', 'true'); f.textContent = '💌';
-    envImg.replaceWith(f);
-  });
+  /* Carta */
   document.getElementById('openBtn').addEventListener('click', function () {
-    var env = document.getElementById('envelope'), letter = document.getElementById('letter');
-    env.classList.add('gone');
-    setTimeout(function () {
-      env.style.display = 'none';
-      letter.classList.add('open');
-      pages[cur].scrollTop = 0;
-    }, 450);
+    document.getElementById('envelope').style.display = 'none';
+    document.getElementById('letter').classList.add('open');
   });
 
-  /* Razones interactivas */
-  Array.prototype.forEach.call(document.querySelectorAll('#reasons li'), function (li, k) {
-    li.style.transitionDelay = (0.15 * k) + 's';
-    function like() { li.classList.toggle('liked'); li.style.transitionDelay = '0s'; }
-    li.addEventListener('click', like);
-    li.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); like(); } });
+  /* Razones */
+  Array.prototype.forEach.call(document.querySelectorAll('#reasons li'), function (li) {
+    li.addEventListener('click', function () { li.classList.toggle('liked'); });
   });
-  Array.prototype.forEach.call(document.querySelectorAll('.timeline li'), function (li, k) { li.style.transitionDelay = (0.2 * k) + 's'; });
 
-  /* Galería con nombres exactos de la última subida */
-  var files = ['foto1.jpg', 'foto2.jpeg', 'foto3.jpeg', 'foto4. HEIC', 'foto5.jpeg'];
-  var gal = document.getElementById('gallery');
-  files.forEach(function (f, k) {
-    var b = document.createElement('button');
-    b.type = 'button'; b.className = 'photo'; b.setAttribute('aria-label', 'Ver foto ' + (k + 1));
-    var im = document.createElement('img');
-    im.src = f; im.alt = 'Foto ' + (k + 1) + ' de nosotros'; im.loading = 'lazy';
-    im.addEventListener('error', function () { b.classList.add('missing'); });
-    b.appendChild(im);
-    b.addEventListener('click', function () {
-      if (b.classList.contains('missing')) return;
-      document.getElementById('lbImg').src = f;
-      document.getElementById('lightbox').classList.add('open');
-    });
-    gal.appendChild(b);
+  /* Lógica del Video */
+  var myVideo = document.getElementById('myVideo');
+  var videoModal = document.getElementById('videoModal');
+
+  document.getElementById('playVideoBtn').addEventListener('click', function () {
+    videoModal.classList.add('open');
+    if (!song.paused) song.pause(); // Pausa la música de fondo para escuchar el video
+    myVideo.play();
   });
-  function closeLb() { document.getElementById('lightbox').classList.remove('open'); }
-  document.getElementById('closeLb').addEventListener('click', closeLb);
-  document.getElementById('lightbox').addEventListener('click', function (e) { if (e.target === this) closeLb(); });
+
+  function closeVid() {
+    videoModal.classList.remove('open');
+    myVideo.pause();
+    myVideo.currentTime = 0;
+  }
+
+  document.getElementById('closeVideo').addEventListener('click', closeVid);
+  videoModal.addEventListener('click', function (e) { if (e.target === this) closeVid(); });
 })();
 </script>
 </body>
