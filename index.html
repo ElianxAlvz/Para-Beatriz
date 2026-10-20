@@ -62,7 +62,7 @@ h2.script { font-size: clamp(2.4rem, 8vw, 3.8rem); margin-bottom: 28px; }
 .btn.big { background: var(--neon); color: #1a0309; font-weight: 600; font-size: 1.15rem; padding: 16px 38px; box-shadow: 0 0 30px rgba(255,77,109,.5); animation: pulse 2.2s ease-in-out infinite; }
 .btn.big:hover { background: #ff6b86; }
 @keyframes pulse { 50% { box-shadow: 0 0 50px rgba(255,77,109,.85); } }
-.btn:focus-visible, .music:focus-visible, .photo:focus-visible, .dot:focus-visible, .reasons li:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+.btn:focus-visible, .music:focus-visible, .dot:focus-visible, .reasons li:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
 
 /* Música */
 .music {
@@ -84,7 +84,6 @@ h2.script { font-size: clamp(2.4rem, 8vw, 3.8rem); margin-bottom: 28px; }
 }
 .nav .btn { min-width: 118px; background: rgba(13,13,13,.85); }
 .nav[hidden] { display: none; }
-.nav .spacer { min-width: 118px; }
 .dots { display: flex; gap: 8px; }
 .dot { width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--neon); background: transparent; cursor: pointer; padding: 0; }
 .dot.on { background: var(--neon); box-shadow: 0 0 8px var(--neon); }
@@ -133,10 +132,37 @@ h2.script { font-size: clamp(2.4rem, 8vw, 3.8rem); margin-bottom: 28px; }
 .photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .photo.missing::after { content: 'Foto pendiente'; position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); font-size: .85rem; }
 .photo.missing img { display: none; }
+
 .lightbox { position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,.94); display: none; place-items: center; padding: 18px; }
 .lightbox.open { display: grid; }
 .lightbox img { max-width: 100%; max-height: 86vh; border-radius: 12px; box-shadow: 0 0 40px rgba(255,77,109,.4); }
 .lightbox .btn { position: absolute; top: calc(14px + env(safe-area-inset-top, 0px)); right: max(14px, env(safe-area-inset-right, 0px)); background: rgba(13,13,13,.85); }
+
+/* Dedicatoria Final */
+.dedication-card {
+  background: var(--panel);
+  border: 1px solid rgba(255,77,109,.35);
+  border-radius: 20px;
+  padding: clamp(25px, 6vw, 45px);
+  max-width: 680px;
+  margin: 0 auto;
+  box-shadow: 0 0 35px rgba(255,77,109,.15);
+  text-align: center;
+}
+.dedication-card p {
+  font-size: clamp(1.05rem, 3vw, 1.25rem);
+  font-weight: 300;
+  line-height: 1.9;
+  color: #f3e8eb;
+  margin-bottom: 20px;
+}
+.signature {
+  font-family: var(--script);
+  font-size: clamp(2.2rem, 7vw, 3.5rem);
+  color: var(--neon);
+  margin-top: 25px;
+  text-shadow: 0 0 15px rgba(255,77,109,.5);
+}
 
 @media (max-width: 480px) { .counter { gap: 8px; } .unit { padding: 16px 4px; } .nav .btn, .nav .spacer { min-width: 96px; padding-inline: 14px; } }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition-duration: .01s !important; } }
@@ -226,11 +252,24 @@ h2.script { font-size: clamp(2.4rem, 8vw, 3.8rem); margin-bottom: 28px; }
     </div>
   </section>
 
-  <!-- Página 6 -->
+  <!-- Página 6: Galería de Fotos -->
   <section class="page" aria-label="Galería">
     <div class="inner">
       <h2 class="script">Nuestros Momentos Juntos</h2>
       <div class="gallery" id="gallery"></div>
+    </div>
+  </section>
+
+  <!-- Página 7: Dedicatoria Final -->
+  <section class="page" aria-label="Dedicatoria">
+    <div class="inner">
+      <h2 class="script">Para Siempre ❤️</h2>
+      <div class="dedication-card">
+        <p>Gracias por cada segundo a mi lado, por cada risa, por cada abrazo y por elegirme todos los días.</p>
+        <p>Prometo seguir construyendo este amor bonito, cuidándote, respetándote y amándote con todo mi corazón.</p>
+        <p>Esto apenas es el comienzo de nuestra historia juntos...</p>
+        <div class="signature">Te amo con toda mi alma, Beatriz ✨</div>
+      </div>
     </div>
   </section>
 
@@ -272,7 +311,7 @@ h2.script { font-size: clamp(2.4rem, 8vw, 3.8rem); margin-bottom: 28px; }
     }
   }
 
-  /* Música: un solo elemento audio fuera de las páginas, nunca se reinicia */
+  /* Música */
   function paintMusic() {
     var on = !song.paused;
     musicBtn.classList.toggle('playing', on);
@@ -283,7 +322,6 @@ h2.script { font-size: clamp(2.4rem, 8vw, 3.8rem); margin-bottom: 28px; }
   var wantPlay = false, triedBlob = false;
   function playMusic() { wantPlay = true; var p = song.play(); if (p && p.catch) p.catch(function () {}); }
   function musicFailed() { document.getElementById('musicTxt').textContent = 'Sin música'; musicBtn.setAttribute('aria-label', 'La música no se pudo cargar'); }
-  /* Si la carga normal falla, se reintenta descargando el archivo y reproduciéndolo desde memoria */
   song.addEventListener('error', function () {
     if (triedBlob) { musicFailed(); return; }
     triedBlob = true;
@@ -298,7 +336,6 @@ h2.script { font-size: clamp(2.4rem, 8vw, 3.8rem); margin-bottom: 28px; }
   song.addEventListener('playing', paintMusic);
   song.addEventListener('pause', paintMusic);
 
-  /* Arranque automático: se intenta al abrir; si el navegador lo bloquea, empieza con el primer toque */
   var unlockEvents = ['pointerdown', 'touchend', 'keydown', 'click'];
   function unlock(e) {
     if (e && e.target && musicBtn.contains(e.target)) return;
@@ -395,8 +432,8 @@ h2.script { font-size: clamp(2.4rem, 8vw, 3.8rem); margin-bottom: 28px; }
   });
   Array.prototype.forEach.call(document.querySelectorAll('.timeline li'), function (li, k) { li.style.transitionDelay = (0.2 * k) + 's'; });
 
-  /* Galería */
-  var files = ['IMG_0111.JPG.jpg.jpeg', 'IMG_0943.PNG', 'IMG_2002.JPG.jpg.jpeg', 'IMG_3494.JPG.jpeg', 'IMG_6009.JPG.jpeg'];
+  /* Galería con nombres exactos de la última subida */
+  var files = ['foto1.jpg', 'foto2.jpeg', 'foto3.jpeg', 'foto4. HEIC', 'foto5.jpeg'];
   var gal = document.getElementById('gallery');
   files.forEach(function (f, k) {
     var b = document.createElement('button');
