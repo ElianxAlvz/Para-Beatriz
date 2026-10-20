@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Yeidy Beatriz ❤️</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0d0d;
+  --panel: #161014;
+  --neon: #ff4d6d;
+  --neon-soft: #ff8fa3;
+  --text: #ffffff;
+  --muted: #b9a3aa;
+  --script: 'Great Vibes', cursive;
+  --sans: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--sans); overflow: hidden; }
+body { -webkit-tap-highlight-color: transparent; }
+
+/* Corazones de fondo */
+#bg { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+#bg span { position: absolute; bottom: -40px; color: var(--neon); opacity: 0; animation: rise linear infinite; text-shadow: 0 0 12px var(--neon); }
+@keyframes rise { 0% { transform: translateY(0) scale(.8); opacity: 0; } 15% { opacity: .35; } 100% { transform: translateY(-110vh) scale(1.2); opacity: 0; } }
+
+/* Páginas */
+#stage { position: fixed; inset: 0; z-index: 1; }
+.page {
+  position: absolute; inset: 0; overflow-y: auto; -webkit-overflow-scrolling: touch;
+  display: flex; flex-direction: column; align-items: center;
+  padding: calc(76px + env(safe-area-inset-top, 0px)) max(20px, env(safe-area-inset-right, 0px)) calc(110px + env(safe-area-inset-bottom, 0px)) max(20px, env(safe-area-inset-left, 0px));
+  opacity: 0; visibility: hidden; transform: translateX(40px);
+  transition: opacity .6s ease, transform .6s ease, visibility 0s linear .6s;
+}
+.page > .inner { margin: auto; width: 100%; max-width: 860px; text-align: center; }
+.page.active { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+.page.leave-left { transform: translateX(-40px); }
+.page.from-left { transform: translateX(-40px); }
+
+h1, h2 { font-weight: 400; }
+.script { font-family: var(--script); color: var(--neon); text-shadow: 0 0 18px rgba(255,77,109,.55); line-height: 1.1; }
+h1.script { font-size: clamp(2.8rem, 11vw, 5.6rem); }
+h2.script { font-size: clamp(2.4rem, 8vw, 3.8rem); margin-bottom: 28px; }
+.subtitle { font-size: clamp(1.05rem, 3.4vw, 1.5rem); font-weight: 300; letter-spacing: .12em; color: var(--neon-soft); margin: 18px 0 40px; }
+
+/* Portada */
+.cover-img { display: block; width: min(52vw, 230px); height: auto; margin: 0 auto 18px; border-radius: 50%; border: 2px solid var(--neon); box-shadow: 0 0 34px rgba(255,77,109,.45); background: #fff; animation: float 4s ease-in-out infinite; }
+@keyframes float { 50% { transform: translateY(-8px); } }
+
+/* Botones */
+.btn {
+  font-family: var(--sans); font-weight: 500; font-size: 1rem; cursor: pointer; color: var(--text);
+  background: transparent; border: 1.5px solid var(--neon); border-radius: 999px; padding: 12px 26px;
+  transition: background .2s, box-shadow .2s, transform .15s;
+}
+.btn:hover { background: rgba(255,77,109,.15); box-shadow: 0 0 22px rgba(255,77,109,.55); }
+.btn:active { transform: scale(.97); }
+.btn.big { background: var(--neon); color: #1a0309; font-weight: 600; font-size: 1.15rem; padding: 16px 38px; box-shadow: 0 0 30px rgba(255,77,109,.5); animation: pulse 2.2s ease-in-out infinite; }
+.btn.big:hover { background: #ff6b86; }
+@keyframes pulse { 50% { box-shadow: 0 0 50px rgba(255,77,109,.85); } }
+.btn:focus-visible, .music:focus-visible, .photo:focus-visible, .dot:focus-visible, .reasons li:focus-visible { outline: 3px solid #fff; outline-offset: 3px; }
+
+/* Música */
+.music {
+  position: fixed; z-index: 20; top: calc(14px + env(safe-area-inset-top, 0px)); left: max(14px, env(safe-area-inset-left, 0px));
+  display: flex; align-items: center; gap: 8px; cursor: pointer; font-family: var(--sans); font-size: .9rem; color: var(--text);
+  background: rgba(13,13,13,.8); border: 1.5px solid var(--neon); border-radius: 999px; padding: 9px 16px;
+  box-shadow: 0 0 16px rgba(255,77,109,.35); backdrop-filter: blur(6px);
+}
+.music .ico { font-size: 1.1rem; }
+.music.playing .ico { animation: beat 1s ease-in-out infinite; }
+@keyframes beat { 50% { transform: scale(1.25); } }
+
+/* Navegación */
+.nav {
+  position: fixed; z-index: 20; left: 0; right: 0; bottom: 0;
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 14px max(16px, env(safe-area-inset-right, 0px)) calc(14px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+  background: linear-gradient(to top, rgba(13,13,13,.95), rgba(13,13,13,0));
+}
+.nav .btn { min-width: 118px; background: rgba(13,13,13,.85); }
+.nav[hidden] { display: none; }
+.nav .spacer { min-width: 118px; }
+.dots { display: flex; gap: 8px; }
+.dot { width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--neon); background: transparent; cursor: pointer; padding: 0; }
+.dot.on { background: var(--neon); box-shadow: 0 0 8px var(--neon); }
+
+/* Contador */
+.counter { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; max-width: 640px; margin: 0 auto; }
+.unit { background: var(--panel); border: 1px solid rgba(255,77,109,.35); border-radius: 16px; padding: 22px 6px; box-shadow: 0 0 24px rgba(255,77,109,.12); }
+.unit b { display: block; font-size: clamp(1.8rem, 8vw, 3.2rem); font-weight: 600; color: var(--neon); font-variant-numeric: tabular-nums; line-height: 1; text-shadow: 0 0 14px rgba(255,77,109,.6); }
+.unit span { display: block; margin-top: 10px; font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+.since { margin-top: 26px; color: var(--muted); font-weight: 300; }
+
+/* Sobre */
+.envelope { display: grid; justify-items: center; gap: 26px; transition: opacity .5s ease, transform .5s ease; }
+.envelope.gone { opacity: 0; transform: scale(.9) translateY(-12px); pointer-events: none; }
+.env-img { width: min(68vw, 300px); height: auto; border-radius: 20px; background: #fff; border: 2px solid var(--neon); box-shadow: 0 0 34px rgba(255,77,109,.45); animation: float 4s ease-in-out infinite; }
+.env-fallback { font-size: clamp(5rem, 24vw, 8rem); line-height: 1; filter: drop-shadow(0 0 22px rgba(255,77,109,.7)); animation: float 4s ease-in-out infinite; }
+@keyframes unfold { from { opacity: 0; transform: translateY(34px) scale(.92); } to { opacity: 1; transform: none; } }
+
+/* Carta */
+.letter { display: none; background: var(--panel); border: 1px solid rgba(255,77,109,.3); border-radius: 18px; padding: clamp(22px, 5vw, 44px); text-align: left; box-shadow: 0 0 40px rgba(255,77,109,.1); }
+.letter.open { display: block; animation: unfold .9s ease both; }
+.letter p { font-weight: 300; font-size: clamp(.98rem, 2.6vw, 1.12rem); line-height: 1.85; margin-bottom: 1.2em; }
+.letter p:last-child { margin-bottom: 0; }
+
+/* Razones */
+.reasons { list-style: none; display: grid; gap: 12px; text-align: left; max-width: 640px; margin: 0 auto; }
+.reasons li {
+  background: var(--panel); border: 1px solid rgba(255,77,109,.25); border-radius: 14px; padding: 15px 18px; cursor: pointer; font-weight: 300; line-height: 1.5;
+  opacity: 0; transform: translateY(14px); transition: opacity .5s ease, transform .5s ease, border-color .2s, box-shadow .2s, background .2s;
+}
+.page.active .reasons li { opacity: 1; transform: none; }
+.reasons li:hover, .reasons li.liked { border-color: var(--neon); box-shadow: 0 0 20px rgba(255,77,109,.35); background: rgba(255,77,109,.1); }
+.reasons li.last { font-weight: 500; border-color: var(--neon); }
+
+/* Recuerdos */
+.timeline { list-style: none; position: relative; max-width: 640px; margin: 0 auto; text-align: left; padding-left: 34px; }
+.timeline::before { content: ''; position: absolute; left: 9px; top: 6px; bottom: 6px; width: 2px; background: linear-gradient(var(--neon), rgba(255,77,109,.1)); }
+.timeline li { position: relative; margin-bottom: 22px; font-weight: 300; line-height: 1.6; opacity: 0; transform: translateX(-16px); transition: opacity .6s ease, transform .6s ease; }
+.page.active .timeline li { opacity: 1; transform: none; }
+.timeline li::before { content: '❤'; position: absolute; left: -34px; top: 0; font-size: .9rem; color: var(--neon); text-shadow: 0 0 10px var(--neon); background: var(--bg); width: 20px; text-align: center; }
+
+/* Galería */
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr)); gap: 14px; }
+.photo { position: relative; padding: 0; border: 1px solid rgba(255,77,109,.35); border-radius: 14px; overflow: hidden; cursor: pointer; background: var(--panel); aspect-ratio: 3 / 4; transition: transform .25s, box-shadow .25s; }
+.photo:hover { transform: scale(1.03); box-shadow: 0 0 26px rgba(255,77,109,.5); }
+.photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.photo.missing::after { content: 'Foto pendiente'; position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); font-size: .85rem; }
+.photo.missing img { display: none; }
+.lightbox { position: fixed; inset: 0; z-index: 50; background: rgba(0,0,0,.94); display: none; place-items: center; padding: 18px; }
+.lightbox.open { display: grid; }
+.lightbox img { max-width: 100%; max-height: 86vh; border-radius: 12px; box-shadow: 0 0 40px rgba(255,77,109,.4); }
+.lightbox .btn { position: absolute; top: calc(14px + env(safe-area-inset-top, 0px)); right: max(14px, env(safe-area-inset-right, 0px)); background: rgba(13,13,13,.85); }
+
+@media (max-width: 480px) { .counter { gap: 8px; } .unit { padding: 16px 4px; } .nav .btn, .nav .spacer { min-width: 96px; padding-inline: 14px; } }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition-duration: .01s !important; } }
+</style>
+</head>
+<body>
+
+<div id="bg" aria-hidden="true"></div>
+
+<button class="music" id="musicBtn" type="button" aria-label="Reproducir música">
+  <span class="ico" id="musicIco">🔇</span><span id="musicTxt">Música</span>
+</button>
+
+<audio id="song" src="musica.mp3" loop preload="auto"></audio>
+
+<main id="stage">
+
+  <!-- Página 1 -->
+  <section class="page active" aria-label="Bienvenida">
+    <div class="inner">
+      <img class="cover-img" src="portada.png" alt="Ilustración de Flork enamorado con corazones">
+      <h1 class="script">Yeidy Beatriz Silvestre Mazara ❤️</h1>
+      <p class="subtitle">Eres el amor de mi vida</p>
+      <button class="btn big" id="startBtn" type="button">Comenzar ❤️</button>
+    </div>
+  </section>
+
+  <!-- Página 2 -->
+  <section class="page" aria-label="Contador">
+    <div class="inner">
+      <h2 class="script">Nuestro Tiempo Juntos</h2>
+      <div class="counter" aria-live="off">
+        <div class="unit"><b id="cD">0</b><span>Días</span></div>
+        <div class="unit"><b id="cH">0</b><span>Horas</span></div>
+        <div class="unit"><b id="cM">0</b><span>Minutos</span></div>
+        <div class="unit"><b id="cS">0</b><span>Segundos</span></div>
+      </div>
+      <p class="since">Desde el 27 de julio de 2022</p>
+    </div>
+  </section>
+
+  <!-- Página 3 -->
+  <section class="page" aria-label="Carta de amor">
+    <div class="inner">
+      <h2 class="script">Para ti, mi amor...</h2>
+      <div class="envelope" id="envelope">
+        <img class="env-img" id="envImg" src="carta_sobre.png" alt="Muñequito entregando un sobre con un corazón">
+        <button class="btn big" id="openBtn" type="button">Abrir 💌</button>
+      </div>
+      <div class="letter" id="letter" aria-live="polite">
+        <p>¡Quién iba a imaginar que tendríamos un amor tan lindo, tan puro, tan genuino, tan nosotros! Cuando antes nunca tuvimos un acercamiento, no éramos amigos, no nos conocíamos como tal... Pasé un poco más de 17 años de mi vida fuera de la tuya, y hoy en día no quiero estar lejos de ti ni por un segundo. En todo este tiempo que llevamos juntos (el cual, por cierto, no es nada para todo lo que quiero contigo) debo decir que he aprendido mucho, tanto de ti como de mí mismo.</p>
+        <p>Hemos tenido muchas altas y muchas bajas; no todo ha sido color de rosa, pero nuestro amor siempre ha sido real. Al momento de escribirte esto no dejo de pensar en cómo ha sido todo desde que te conocí: tan solo era un adolescente en ese entonces y ahora, poco a poco, me estoy convirtiendo en un hombre. Un hombre que quiere crecer a tu lado y tratarte siempre como la reina que eres; siempre amarte, anhelarte y desear todo contigo, porque eso es lo que mi corazón siente cuando pienso en ti.</p>
+        <p>Como ya dije, no todo ha sido fácil. Hemos tenido momentos no muy buenos y conversaciones difíciles que, cuando me detengo a pensar, siento que han forjado un amor muy fuerte por ti. Apenas estamos comenzando a vivir, aún somos jóvenes con un futuro que no tenemos del todo definido, pero quiero que sepas que a mis 21 años ya tengo más que claro que todo lo que quiero, lo quiero contigo, mi amor.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Página 4 -->
+  <section class="page" aria-label="Razones">
+    <div class="inner">
+      <h2 class="script">Razones por las que te amo</h2>
+      <ul class="reasons" id="reasons">
+        <li tabindex="0">🥰 Tu sonrisa y tu forma de ser.</li>
+        <li tabindex="0">💖 Lo bonito que me haces sentir.</li>
+        <li tabindex="0">😍 Tus curvas que me vuelven loco.</li>
+        <li tabindex="0">💝 La forma tan bonita de demostrarme tu amor y lo genuina que eres.</li>
+        <li tabindex="0">💞 Tu forma de ser conmigo y la manera en la que ves nuestro amor.</li>
+        <li tabindex="0">🌹 La manera en la que me cuidas y me respetas.</li>
+        <li tabindex="0">💘 Lo diferente que eres y por cómo piensas sobre nosotros.</li>
+        <li tabindex="0" class="last">❤️ Porque quiero todo contigo, por siempre.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Página 5 -->
+  <section class="page" aria-label="Recuerdos">
+    <div class="inner">
+      <h2 class="script">Esos lindos momentos de nuestros inicios ღ</h2>
+      <ul class="timeline">
+        <li>Nuestras primeras semanas, cuando nos estábamos conociendo y sentíamos toda la vergüenza del mundo al juntarnos.</li>
+        <li>Los días tan bonitos que pasamos en nuestra primera Navidad, nuestra Nochebuena y Año Nuevo.</li>
+        <li>Esa noche mágica (9 de enero de 2023).</li>
+        <li>Lo bien que me hiciste sentir en mi cumpleaños (14 de febrero).</li>
+        <li>El rato tan agradable que pasamos en tu cumpleaños, ese 30 de junio. 🔥</li>
+        <li>Lo lindo que se sintió nuestro primer aniversario...</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Página 6 -->
+  <section class="page" aria-label="Galería">
+    <div class="inner">
+      <h2 class="script">Nuestros Momentos Juntos</h2>
+      <div class="gallery" id="gallery"></div>
+    </div>
+  </section>
+
+</main>
+
+<nav class="nav" id="nav" aria-label="Navegación" hidden>
+  <button class="btn" id="prevBtn" type="button">⬅️ Anterior</button>
+  <div class="dots" id="dots"></div>
+  <button class="btn" id="nextBtn" type="button">Siguiente ➡️</button>
+</nav>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-label="Foto ampliada">
+  <button class="btn" id="closeLb" type="button">Cerrar ✕</button>
+  <img id="lbImg" alt="">
+</div>
+
+<script>
+(function () {
+  var pages = Array.prototype.slice.call(document.querySelectorAll('.page'));
+  var cur = 0;
+  var song = document.getElementById('song');
+  var musicBtn = document.getElementById('musicBtn');
+  var prevBtn = document.getElementById('prevBtn');
+  var nextBtn = document.getElementById('nextBtn');
+  var dotsEl = document.getElementById('dots');
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Corazones de fondo */
+  if (!reduce) {
+    var bg = document.getElementById('bg');
+    for (var i = 0; i < 16; i++) {
+      var h = document.createElement('span');
+      h.textContent = '❤';
+      h.style.left = Math.random() * 100 + '%';
+      h.style.fontSize = (10 + Math.random() * 20) + 'px';
+      h.style.animationDuration = (9 + Math.random() * 10) + 's';
+      h.style.animationDelay = (-Math.random() * 14) + 's';
+      bg.appendChild(h);
+    }
+  }
+
+  /* Música: un solo elemento audio fuera de las páginas, nunca se reinicia */
+  function paintMusic() {
+    var on = !song.paused;
+    musicBtn.classList.toggle('playing', on);
+    document.getElementById('musicIco').textContent = on ? '🔊' : '🔇';
+    document.getElementById('musicTxt').textContent = on ? 'Pausar' : 'Música';
+    musicBtn.setAttribute('aria-label', on ? 'Pausar música' : 'Reproducir música');
+  }
+  var wantPlay = false, triedBlob = false;
+  function playMusic() { wantPlay = true; var p = song.play(); if (p && p.catch) p.catch(function () {}); }
+  function musicFailed() { document.getElementById('musicTxt').textContent = 'Sin música'; musicBtn.setAttribute('aria-label', 'La música no se pudo cargar'); }
+  /* Si la carga normal falla, se reintenta descargando el archivo y reproduciéndolo desde memoria */
+  song.addEventListener('error', function () {
+    if (triedBlob) { musicFailed(); return; }
+    triedBlob = true;
+    fetch('musica.mp3').then(function (r) { if (!r.ok) throw new Error('http'); return r.blob(); }).then(function (b) {
+      song.src = URL.createObjectURL(b);
+      if (wantPlay) playMusic();
+    }).catch(musicFailed);
+  });
+  musicBtn.addEventListener('click', function () { if (song.paused) playMusic(); else song.pause(); });
+  song.addEventListener('play', paintMusic);
+  song.addEventListener('waiting', function () { if (!song.paused) document.getElementById('musicTxt').textContent = 'Cargando…'; });
+  song.addEventListener('playing', paintMusic);
+  song.addEventListener('pause', paintMusic);
+
+  /* Arranque automático: se intenta al abrir; si el navegador lo bloquea, empieza con el primer toque */
+  var unlockEvents = ['pointerdown', 'touchend', 'keydown', 'click'];
+  function unlock(e) {
+    if (e && e.target && musicBtn.contains(e.target)) return;
+    playMusic();
+  }
+  function disarm() { unlockEvents.forEach(function (ev) { document.removeEventListener(ev, unlock, true); }); }
+  song.addEventListener('play', disarm);
+  var auto = song.play();
+  if (auto && auto.catch) auto.catch(function () {
+    unlockEvents.forEach(function (ev) { document.addEventListener(ev, unlock, true); });
+  });
+
+  /* Navegación */
+  for (var d = 0; d < pages.length; d++) {
+    (function (n) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'dot'; b.setAttribute('aria-label', 'Ir a la página ' + (n + 1));
+      b.addEventListener('click', function () { show(n); });
+      dotsEl.appendChild(b);
+    })(d);
+  }
+  var started = false;
+  function show(n) {
+    if (n < 0 || n >= pages.length || n === cur) return;
+    if (!started && n > 0) return;
+    var from = pages[cur], to = pages[n];
+    from.classList.remove('active');
+    from.classList.toggle('leave-left', n > cur);
+    to.classList.remove('leave-left');
+    to.classList.toggle('from-left', n < cur);
+    void to.offsetWidth;
+    to.classList.add('active');
+    to.classList.remove('from-left');
+    to.scrollTop = 0;
+    cur = n;
+    paint();
+  }
+  function paint() {
+    document.getElementById('nav').hidden = cur === 0;
+    nextBtn.style.visibility = cur === pages.length - 1 ? 'hidden' : 'visible';
+    Array.prototype.forEach.call(dotsEl.children, function (el, k) { el.classList.toggle('on', k === cur); });
+  }
+  prevBtn.addEventListener('click', function () { show(cur - 1); });
+  nextBtn.addEventListener('click', function () { show(cur + 1); });
+  document.getElementById('startBtn').addEventListener('click', function () { started = true; playMusic(); show(1); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowRight') show(cur + 1);
+    if (e.key === 'ArrowLeft') show(cur - 1);
+    if (e.key === 'Escape') closeLb();
+  });
+  var sx = null;
+  document.addEventListener('touchstart', function (e) { sx = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', function (e) {
+    if (sx === null) return;
+    var dx = e.changedTouches[0].clientX - sx; sx = null;
+    if (Math.abs(dx) > 70 && !document.getElementById('lightbox').classList.contains('open')) show(cur + (dx < 0 ? 1 : -1));
+  }, { passive: true });
+  paint();
+
+  /* Contador desde el 27 de julio de 2022 */
+  var start = new Date(2022, 6, 27, 0, 0, 0).getTime();
+  function tick() {
+    var s = Math.max(0, Math.floor((Date.now() - start) / 1000));
+    document.getElementById('cD').textContent = Math.floor(s / 86400);
+    document.getElementById('cH').textContent = Math.floor(s % 86400 / 3600);
+    document.getElementById('cM').textContent = Math.floor(s % 3600 / 60);
+    document.getElementById('cS').textContent = s % 60;
+  }
+  tick(); setInterval(tick, 1000);
+
+  /* Carta con sobre */
+  var envImg = document.getElementById('envImg');
+  envImg.addEventListener('error', function () {
+    var f = document.createElement('div');
+    f.className = 'env-fallback'; f.setAttribute('aria-hidden', 'true'); f.textContent = '💌';
+    envImg.replaceWith(f);
+  });
+  document.getElementById('openBtn').addEventListener('click', function () {
+    var env = document.getElementById('envelope'), letter = document.getElementById('letter');
+    env.classList.add('gone');
+    setTimeout(function () {
+      env.style.display = 'none';
+      letter.classList.add('open');
+      pages[cur].scrollTop = 0;
+    }, 450);
+  });
+
+  /* Razones interactivas */
+  Array.prototype.forEach.call(document.querySelectorAll('#reasons li'), function (li, k) {
+    li.style.transitionDelay = (0.15 * k) + 's';
+    function like() { li.classList.toggle('liked'); li.style.transitionDelay = '0s'; }
+    li.addEventListener('click', like);
+    li.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); like(); } });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('.timeline li'), function (li, k) { li.style.transitionDelay = (0.2 * k) + 's'; });
+
+  /* Galería */
+  var files = ['IMG_0111.JPG.jpg.jpeg', 'IMG_0943.PNG', 'IMG_2002.JPG.jpg.jpeg', 'IMG_3494.JPG.jpeg', 'IMG_6009.JPG.jpeg'];
+  var gal = document.getElementById('gallery');
+  files.forEach(function (f, k) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'photo'; b.setAttribute('aria-label', 'Ver foto ' + (k + 1));
+    var im = document.createElement('img');
+    im.src = f; im.alt = 'Foto ' + (k + 1) + ' de nosotros'; im.loading = 'lazy';
+    im.addEventListener('error', function () { b.classList.add('missing'); });
+    b.appendChild(im);
+    b.addEventListener('click', function () {
+      if (b.classList.contains('missing')) return;
+      document.getElementById('lbImg').src = f;
+      document.getElementById('lightbox').classList.add('open');
+    });
+    gal.appendChild(b);
+  });
+  function closeLb() { document.getElementById('lightbox').classList.remove('open'); }
+  document.getElementById('closeLb').addEventListener('click', closeLb);
+  document.getElementById('lightbox').addEventListener('click', function (e) { if (e.target === this) closeLb(); });
+})();
+</script>
+</body>
+</html>
