@@ -226,7 +226,7 @@ h2.script { font-size: clamp(2.4rem, 8vw, 3.8rem); margin-bottom: 28px; }
     </div>
   </section>
 
-  <!-- Página 5: Recuerdos Separdos Correctamente -->
+  <!-- Página 5 -->
   <section class="page" aria-label="Recuerdos">
     <div class="inner">
       <h2 class="script">Esos lindos momentos de nuestros inicios ღ</h2>
@@ -242,7 +242,7 @@ h2.script { font-size: clamp(2.4rem, 8vw, 3.8rem); margin-bottom: 28px; }
     </div>
   </section>
 
-  <!-- Página 6: Sección del Video -->
+  <!-- Página 6 -->
   <section class="page" aria-label="Video de momentos">
     <div class="inner">
       <h2 class="script">Por más momentos así ❤️</h2>
@@ -252,7 +252,7 @@ h2.script { font-size: clamp(2.4rem, 8vw, 3.8rem); margin-bottom: 28px; }
     </div>
   </section>
 
-  <!-- Página 7: Dedicatoria Final -->
+  <!-- Página 7 -->
   <section class="page" aria-label="Dedicatoria">
     <div class="inner">
       <h2 class="script">Para Siempre ❤️</h2>
@@ -260,7 +260,7 @@ h2.script { font-size: clamp(2.4rem, 8vw, 3.8rem); margin-bottom: 28px; }
         <p>Gracias por cada segundo a mi lado, por cada risa, por cada abrazo y por elegirme todos los días.</p>
         <p>Prometo seguir construyendo este amor bonito, cuidándote, respetándote y amándote con todo mi corazón.</p>
         <p>Esto apenas es el comienzo de nuestra historia juntos...</p>
-        <div class="signature">Te amo con toda mi alma, mi amor 💘</div>
+        <div class="signature">Te amo con toda mi alma, Beatriz ✨</div>
       </div>
     </div>
   </section>
@@ -367,14 +367,13 @@ h2.script { font-size: clamp(2.4rem, 8vw, 3.8rem); margin-bottom: 28px; }
     li.addEventListener('click', function () { li.classList.toggle('liked'); });
   });
 
-  /* Lógica del Video */
+  /* Lógica del Video (AHORA MANTIENE LA MÚSICA DE FONDO) */
   var myVideo = document.getElementById('myVideo');
   var videoModal = document.getElementById('videoModal');
 
   document.getElementById('playVideoBtn').addEventListener('click', function () {
     videoModal.classList.add('open');
-    if (!song.paused) song.pause();
-    myVideo.play();
+    myVideo.play(); // El video se reproduce sin pausar la canción de fondo
   });
 
   function closeVid() {
